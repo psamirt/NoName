@@ -9,8 +9,10 @@ import connection from './src/database/index.js';
 
 dotenv.config();
 
+const { PORT } = process.env || 3000;
+
 const app = express();
-const server = createServer();
+const server = createServer(app);
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -19,15 +21,15 @@ app.use(bodyParser.json());
 app.use('/', routes);
 
 app.get("/", (_req, res) => {
-    res.status(200).send("noname funcionanding")
-})
+    res.status(200).send("noname funcionanding");
+});
 
 connection()
-.then(()=> {
-    server.listen(/*puerto*/, () => {
-        console.log("Server running on port ...");
-    })
+.then(() => {
+    server.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
 })
-.catch((error)=> {
-    console.error("Error on connecting", error)
-})
+.catch((error) => {
+    console.error("Error on connecting", error);
+});
